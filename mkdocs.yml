@@ -1,0 +1,17 @@
+site_name: 'My docs'
+pages:
+- --== Content ==--: 'content.md'
+- ------------------- Network -------------------:
+   - 'Network': 'network-common.md'
+- ---------------- Open vswitch ----------------:
+   - 'OVS': 'openvswitch.md'
+- ------------------- Neutron -------------------:
+   - 'Neutron common': 'neutron-common.md'
+   - 'Neutron virtual switching': 'neutron-switching.md'
+   - 'Neutron DVR': 'neutron-dvr.md'
+- ----test2----:
+   - 'Index': 'index.md'
+   - 'About': 'about.md'
+
+
+theme: readthedocs
