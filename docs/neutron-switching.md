@@ -46,24 +46,111 @@ integration, and tunnel bridge. These virtual switches are cross connected with 
 another, similar to how a physical switch may be connected to another physical
 switch with a cross connect cable.
 
-#####Configuring the bridge interface
+In a **LinuxBridge-based network** implementation, there are fi ve types of interfaces
+managed by Neutron, which are:
 
-In this instruction, the eth1 physical network interface will be utilized for bridging
-purposes. On the controller and compute nodes, configure the eth1 interface within
-the /etc/network/interfaces/eth1.cfg file, as follows:
+- Tap interfaces
+- Physical interfaces
+- VLAN interfaces
+- VXLAN interfaces
+- Linux bridges
+
+In an **Open vSwitch-based network** implementation, there are fi ve distinct types of
+virtual networking devices:
+
+- Tap devices
+- Linux bridges
+- Virtual Ethernet cables
+- OVS bridges
+- OVS patch ports
+
+
+#####Using the L2 population driver
+
+The L2 population driver enables broadcast, multicast, and unicast traffi c to scale out on large
+overlay networks.
+The L2 population driver works to prepopulate bridge-forwarding tables on all hosts
+to eliminate normal switch learning behaviors as broadcasts through an overlay
+network are costly operations due to encapsulation. As Neutron is seen as the source
+of truth for the logical layout of networks and instances created by tenants, it can
+easily prepopulate forwarding tables consisting of MAC addresses and destination
+hosts with this information. The L2 population driver also implements an ARP proxy
+on each host, eliminating the need to broadcast ARP requests across the overlay
+network. Each node is able to intercept an ARP request from an instance or router
+and proxy the response to the requestor.
+
+
+#####Connectivity issues when using overlay networks
+
+One thing to be aware of when using overlay networking technologies is that
+the additional headers added to the packets may cause the packet to exceed the
+maximum transmission unit, or MTU. The MTU is the largest size of packet or
+frame that can be sent over a network. Encapsulating a packet with VXLAN headers
+may cause the packet size to exceed the default maximum, which is 1500 bytes.
+Connection issues caused by exceeding the MTU manifest themselves in strange
+ways; they can be seen in partial failures in connecting to instances over SSH or
+in a failure to transfer large payloads between instances, among others. Consider
+lowering the MTU of interfaces within virtual machine instances from 1500 bytes
+to 1450 bytes to account for the overhead of VXLAN encapsulation so as to avoid
+connectivity issues.
+
+The DHCP agent and dnsmasq can be configured to push a lower MTU to instances
+within the DHCP lease offer. To configure a lower MTU, complete the following
+steps:
+
+1. On the controller node, modify the DHCP confi guration fi le at /etc/
+neutron/dhcp_agent.ini and specify a custom dnsmasq confi guration fi le,
+as follows:
 ```
-    auto eth1
-    iface eth1 inet manual
-```    
-Close and save the file and bring the interface up with the following command:
-```
-# ip link set dev eth1 up
-or 
-# ifup eth1
-```
-Confirm that the interface is in an UP state using the ip link show dev eth1:
-```sh
-# link show dev eth1
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+[DEFAULT]
+dnsmasq_config_file = /etc/neutron/dnsmasq-neutron.conf
 ```
 
+2. Next, create the custom dnsmasq confi guration fi le at /etc/neutron/
+dnsmasq-neutron.conf and add the following contents:
+```
+dhcp-option-force=26,1450
+```
+
+3. Save and close the file. Restart the Neutron DHCP agent with the following
+command:
+```
+# service neutron-dhcp-agent restart
+```
+When the instances are later created, the MTU can be observed within the instance
+using the `ip link show <interface>` command.
+
+
+In a **LinuxBridge-based network** implementation, there are fi ve types of interfaces
+managed by Neutron, which are:
+
+- Tap interfaces
+- Physical interfaces
+- VLAN interfaces
+- VXLAN interfaces
+- Linux bridges
+
+In an **Open vSwitch-based network** implementation, there are fi ve distinct types of
+virtual networking devices:
+
+- Tap devices
+- Linux bridges
+- Virtual Ethernet cables
+- OVS bridges
+- OVS patch ports
+
+#####FAQ
+
+1. Can Neutron use Linux bridge and Open vSwitch simultaneously?
+
+    Yes, Neutron can, but only on different nodes, not on one. Each plugin option need to be configured on each 
+    node in `/etc/neutron/plugins/ml2/ml2_conf.ini`  
+```
+[ml2]
+mechanism_drivers = openvswitch
+```
+or
+```
+[ml2]
+mechanism_drivers = lbx
+```

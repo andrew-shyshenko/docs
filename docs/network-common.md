@@ -2,13 +2,99 @@
 
 #####DHCP
 
-#####Bridge
-
 #####VLAN
 
 #####GRE
 
+#####Namespaces
+
 ![Packet encapsulation](img/gre-vxlan.png)
+
+#####MTU
+
+
+#####Interfaces
+
+OpenStack operates with such interfaces: 
+
+- Physical interfaces
+- Tap devices
+- VLAN interfaces
+- VXLAN interfaces
+- Linux bridges
+- Virtual Ethernet cables
+- OVS bridges
+- OVS patch ports
+
+A **physical interface** represents an interface on the host that is plugged into physical
+network hardware. Physical interfaces are often labeled eth0 , eth1 , em0 , em1 , and so
+on, and vary depending on the host operating system.
+
+A **tap interface** is created and used by a hypervisor, such as QEMU/KVM, to
+connect the guest operating system in a virtual machine instance to the host. These
+virtual interfaces on the host correspond to a network interface inside the guest
+instance. An Ethernet frame sent to the tap device on the host is received by the guest
+operating system, and the frames received from a guest operating system are injected
+into the host network stack.
+
+A **VLAN interface** can be created using iproute2 commands or the traditional vlan
+utility and 8021q kernel module. A VLAN interface is often labeled ethX.<vlan>
+and is associated with its respective physical interface, ethX. Linux supports 
+802.1q VLAN tagging through the use of virtual VLAN interfaces.
+
+A **VXLAN interface** is a virtual interface that is used to encapsulate and forward
+traffi c based on the parameters confi gured during the creation of an interface, such
+as a VXLAN Network Identifi er (VNI) and VXLAN Tunnel End Point (VTEP). The
+function of a VTEP is to encapsulate the virtual machine instance traffi c within an IP
+header across an IP network. Traffi c is segregated from other VXLAN traffi c using an
+ID provided by the VNI. The instances themselves are unaware of the outer network
+topology providing connectivity between VTEPs.
+
+A **Linux bridge** is a virtual interface that connects multiple network interfaces. In
+Neutron, a bridge usually includes a physical interface and one or more virtual or
+tap interfaces. Linux bridges are a form of virtual switches.
+
+Virtual Ethernet, or **veth**, cables are virtual interfaces that mimic network patch cables. An Ethernet
+frame sent to one end of a veth cable is received by the other end, much like a real
+network patch cable. Neutron also makes use of veth cables to make connections
+between various network resources, including namespaces and bridges.
+
+An **OVS bridge** behaves like a physical switch, only one that is virtualized. Neutron
+connects the interfaces used by DHCP or router namespaces and instance tap
+interfaces to OVS bridge ports. The ports themselves can be configured much like a
+physical switch port. Open vSwitch maintains information about connected devices,
+including MAC addresses and interface statistics.
+
+Open vSwitch has a built-in port type that mimics the behavior of a Linux veth cable,
+but it is optimized for use with OVS bridges. When connecting two Open vSwitch
+bridges, a port on each switch is reserved as a **patch port**. Patch ports are configured
+with a peer name that corresponds to the patch port on the other switch.
+
+**Note!** 
+Open vSwitch patch ports are used to connect Open vSwitch bridges to each other,
+while Linux veth interfaces are used to connect Open vSwitch bridges to Linux
+bridges or Linux bridges to other Linux bridges.
+
+#####Configuring the bridge interface
+
+In this instruction, the eth1 physical network interface will be utilized for bridging
+purposes. On the controller and compute nodes, configure the eth1 interface within
+the /etc/network/interfaces/eth1.cfg file, as follows:
+```
+    auto eth1
+    iface eth1 inet manual
+```    
+Close and save the file and bring the interface up with the following command:
+```
+# ip link set dev eth1 up
+or 
+# ifup eth1
+```
+Confirm that the interface is in an UP state using the ip link show dev eth1:
+```sh
+# link show dev eth1
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+```
 
 
 

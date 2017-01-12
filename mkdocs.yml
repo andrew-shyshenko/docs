@@ -1,4 +1,4 @@
-site_name: 'My docs'
+site_name: 'KB OpenStack mitaka/newton'
 pages:
 - --== Content ==--: 'content.md'
 - ------------------- Network -------------------:
@@ -9,9 +9,5 @@ pages:
    - 'Neutron common': 'neutron-common.md'
    - 'Neutron virtual switching': 'neutron-switching.md'
    - 'Neutron DVR': 'neutron-dvr.md'
-- ----test2----:
-   - 'Index': 'index.md'
-   - 'About': 'about.md'
-
 
 theme: readthedocs

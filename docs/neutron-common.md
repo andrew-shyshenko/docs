@@ -145,3 +145,40 @@ The LinuxBridge and Open vSwitch plugins are used to provide layer 2 connectivit
 to instances and other network resources through the use of VLANs or overlay
 networking technologies such as GRE or VXLAN. Both provide a layer 2 switching
 infrastructure, but they do so in unique ways.
+
+######Network types supported by Neutron
+
+With the ML2 plugin, Neutron supports a range of traditional and overlay
+networking types provided by type drivers, including:
+
+- Local
+- Flat
+- VLAN
+- VXLAN
+- GRE
+
+A **local network** is one that is isolated from other networks and nodes. Instances
+connected to a local network may communicate with other instances in the same
+network on the same compute node but may be unable to communicate with
+instances in the same network that reside on another host. Because of this designed
+limitation, local networks are recommended for testing purposes only.
+
+In a **flat network**, no VLAN tagging or other network segregation takes place. In
+some confi gurations, instances can reside in the same network as the host machines.
+
+**VLAN networks** are networks that utilize 802.1q tagging to segregate network
+traffic. Instances in the same VLAN are considered part of the same network and
+are in the same layer 2 broadcast domain. InterVLAN routing, or routing between
+VLANs, is only possible through the use of a router.
+
+A **VXLAN network** uses a unique segmentation ID, called VNI, to differentiate
+traffic from other VXLAN networks. Traffic from one instance to another is
+encapsulated by the host using the VNI and sent over an existing layer 3 network
+using UDP, where it is decapsulated and forwarded to the instance. The use of
+VXLAN to encapsulate packets over an existing network is meant to solve limitations
+of VLANs and physical switching infrastructures. 
+
+A **GRE network** is similar to a VXLAN network in that traffic from one instance
+to another is encapsulated and sent over an existing layer 3 network. A unique
+segmentation ID is used to differentiate traffic from other GRE networks. Rather
+than using UDP as the transport mechanism, GRE traffic uses IP protocol 47.
