@@ -7,7 +7,7 @@ A network namespace is analogous to chroot for the network stack. Inside a netwo
 bound ports, and interfaces that were created in the namespace. Each network namespace has its own routing table and iptables process 
 that provide filtering and network address translation, also known as NAT.
 
-#####<h5>Types of network traffic</h5>
+#####Types of network traffic
 
 The reference architecture for OpenStack Networking defines at least four distinct
 types of network traffic:
@@ -44,6 +44,7 @@ or VXLAN encapsulation.
 The interfaces used for the external and guest networks can be dedicated interfaces
 or ones that are shared with other types of traffic. Each approach has its benefits and
 caveats.
+
 
 #####Single physical interface architecture
  
@@ -84,6 +85,18 @@ ports define both the MAC and IP addresses to be assigned to the interfaces
 plugged into them. Neutron port definitions are stored in the Neutron
 database, which is then used by the respective plugin agent to build and
 connect the virtual switching infrastructure.
+
+
+#####OpenStack Networking diagram
+
+![Neutron components](img/neutron_components.png)
+
+This diagram depicts a sample OpenStack Networking deployment, with a dedicated OpenStack Networking node 
+performing L3 routing and DHCP, and running the advanced services FWaaS and LBaaS. Two Compute nodes run 
+the Open vSwitch (openvswitch-agent) and have two physical network cards each, one for tenant traffic, and 
+another for management connectivity. The OpenStack Networking node has a third network card specifically 
+for provider traffic (one of few variants using networks in OpenStack)
+
 
 #####Overlapping networks using network namespaces
 

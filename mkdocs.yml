@@ -9,5 +9,6 @@ pages:
    - 'Neutron common': 'neutron-common.md'
    - 'Neutron virtual switching': 'neutron-switching.md'
    - 'Neutron DVR': 'neutron-dvr.md'
+   - 'Neutron troubleshooting': 'neutron-troubleshooting.md'
 
 theme: readthedocs

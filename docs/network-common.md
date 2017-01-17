@@ -97,6 +97,50 @@ Confirm that the interface is in an UP state using the ip link show dev eth1:
 ```
 
 
+#####TUN/TAP
+
+1. TUN/TAP provides packet reception and transmission for user space programs. 
+It can be seen as a simple Point-to-Point or Ethernet device, which,
+instead of receiving packets from physical media, receives them from 
+user space program and instead of sending packets via physical media 
+writes them to the user space program. 
+
+2. What is TUN/TAP driver used for?
+As mentioned above, main purpose of TUN/TAP driver is tunneling. 
+It is used by VTun (http://vtun.sourceforge.net).
+
+Another interesting application using TUN/TAP is pipsecd
+(http://perso.enst.fr/~beyssac/pipsec/), a userspace IPSec
+implementation that can use complete kernel routing (unlike FreeS/WAN).
+
+3. How does Virtual network device actually work ? 
+Virtual network device can be viewed as a simple Point-to-Point or
+Ethernet device, which instead of receiving packets from a physical 
+media, receives them from user space program and instead of sending 
+packets via physical media sends them to the user space program. 
+
+Let's say that you configured IPX on the tap0, then whenever 
+the kernel sends an IPX packet to tap0, it is passed to the application
+(VTun for example). The application encrypts, compresses and sends it to 
+the other side over TCP or UDP. The application on the other side decompresses
+and decrypts the data received and writes the packet to the TAP device, 
+the kernel handles the packet like it came from real physical device.
+
+4. What is the difference between TUN driver and TAP driver?
+TUN works with IP frames. TAP works with Ethernet frames.
+
+This means that you have to read/write IP packets when you are using tun and
+ethernet frames when using tap.
+
+5. What is the difference between BPF and TUN/TAP driver?
+BPF is an advanced packet filter. It can be attached to existing
+network interface. It does not provide a virtual network interface.
+A TUN/TAP driver does provide a virtual network interface and it is possible
+to attach BPF to this interface.
+
+6. Does TAP driver support kernel Ethernet bridging?
+Yes. Linux and FreeBSD drivers support Ethernet bridging. 
+
 
 #####FAQ
 
@@ -124,3 +168,15 @@ Confirm that the interface is in an UP state using the ip link show dev eth1:
 # update-grub
 # sed -i 's/ens3/eth0/' /etc/network/interfaces
 ```
+
+4. Can I add 2 bridges to 1 interface?
+
+    No.
+    
+5. Can I add 1 interface to 2 bridges?
+
+    No.
+    
+5. Can I add 2 interfaces to 1 bridge?
+
+    Yes.

@@ -192,7 +192,7 @@ FAQ
 
 1. Why do OVS bridges have state UNKNOWN in command 'ip a'?
  
-    Because OVS manages this, not Linux.
+    Because OVS manages this interfaces, not Linux.
     
 
 Links
