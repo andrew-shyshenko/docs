@@ -190,10 +190,86 @@ ovs-vsctl: ovs-vswitchd management utility
 FAQ
 ---
 
-1. Why do OVS bridges have state UNKNOWN in command 'ip a'?
+1.  Why do OVS bridges have state UNKNOWN in command 'ip a'?
  
     Because OVS manages this interfaces, not Linux.
     
+
+2.  Why does each bridge need to have a port and interface with the same name marked as type "internal"?
+    If I attempt to delete them, for example, it says that the port does not exist. How else are they used?
+    
+```
+e.g.
+
+$ovs-vsctl show
+e1bbbcb1-e20d-48e5-ae89-823c1a485625
+    Bridge br-tun
+        Port br-tun
+            Interface br-tun
+                type: internal
+        Port patch-int
+            Interface patch-int
+                type: patch
+                options: {peer=patch-tun}
+    Bridge br-int
+        Port br-int
+            Interface br-int
+                type: internal
+        Port "int-br-eth1"
+            Interface "int-br-eth1"
+        Port patch-tun
+            Interface patch-tun
+                type: patch
+                options: {peer=patch-int}
+    Bridge "br-eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+```    
+
+The internal interface and port in each bridge is both an implementation requirement and exists for historical reasons 
+relating to the implementation of Linux bridging module.
+This is referred to as the "local" interface and port. In newer releases of OpenVSwitch, this message has been changed to reflect this, e.g.:
+
+```
+$ovs-vsctl del-port br-eth1
+ovs-vsctl: cannot delete port br-eth1 because it is the local port for bridge br-eth1 (deleting this port requires deleting the entire bridge)
+```
+
+The purpose is to hold the IP for the bridge itself (just like some physical bridges do). This is also useful in cases where a bridge has 
+a physical interface that would normally have its own IP. Since assigning a port to an IP wouldn't happen in a physical bridge, 
+assigning an IP to the physical interface would be incorrect, as packets would stop at the port and not be passed across the bridge.
+
+3.  I created a bridge and added my Ethernet port to it, using commands like these:
+
+```
+   ovs-vsctl add-br br0
+   ovs-vsctl add-port br0 eth0
+```
+
+and as soon as I ran the "add-port" command I lost all connectivity through eth0. Help!
+
+
+A physical Ethernet device that is part of an Open vSwitch bridge should not have an IP address. If one does, then that IP address 
+will not be fully functional.
+You can restore functionality by moving the IP address to an Open vSwitch "internal" device, such as the network device 
+named after the bridge itself. For example, assuming that eth0's IP address is 192.168.128.5, you could run the commands below to fix up the situation:
+
+```
+   ifconfig eth0 0.0.0.0
+   ifconfig br0 192.168.128.5
+```
+(If your only connection to the machine running OVS is through the IP address in question, then you would want to run all of these commands 
+on a single command line, or put them into a script.) If there were any additional routes assigned to eth0, then you would also want to use commands 
+to adjust these routes to go through br0.
+
+There is no compelling reason why Open vSwitch must work this way. However, this is the way that the Linux kernel bridge module has always worked, 
+so it's a model that those accustomed to Linux bridging are already used to. Also, the model that most people expect is not implementable without 
+kernel changes on all the versions of Linux that Open vSwitch supports.
 
 Links
 -----

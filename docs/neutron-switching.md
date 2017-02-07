@@ -67,7 +67,7 @@ virtual networking devices:
 
 #####Using the L2 population driver
 
-The L2 population driver enables broadcast, multicast, and unicast traffi c to scale out on large
+The L2 population driver enables broadcast, multicast, and unicast traffic to scale out on large
 overlay networks.
 The L2 population driver works to prepopulate bridge-forwarding tables on all hosts
 to eliminate normal switch learning behaviors as broadcasts through an overlay
@@ -139,6 +139,63 @@ virtual networking devices:
 - OVS bridges
 - OVS patch ports
 
+
+####Visualizing the traffic flow when using Linux Bridge
+
+![traffic flow with lbx](img/lbx_flow.png)
+
+While an Ethernet frame travels from the virtual machine instance to a remote
+physical network, it passes through three or four of the following devices depending
+on the network type:
+
+- The tap interface: tapN
+- The Linux bridge: brqXXXX
+- The VXLAN interface: vxlan-Z (where z is the VNI)
+- The VLAN interface: ethX.Y (where X is the interface and Y is the VLAN ID)
+- The physical interface: ethX (where X is the interface)
+
+See all bridges and connected interfaces:
+
+```sh
+# brctl show
+```
+
+
+####Visualizing the traffic flow when using Open vSwitch
+
+![traffic flow with ovs](img/ovs_flow.png)
+
+When using the Open vSwitch driver, for an Ethernet frame to travel from the virtual
+machine instance out through the physical server interface, it will potentially pass
+through nine devices inside the host:
+
+- The tap interface: tapXXXX
+- The Linux bridge: qbrXXXX
+- The veth pair: qvbXXXX , qvoXXXX
+- The OVS integration bridge: br-int
+- OVS patch ports: int-br-ethX and phy-br-ethX
+- The OVS provider bridge: br-ethX
+- The physical interface: ethX
+- The OVS tunnel bridge: br-tun
+
+The Open vSwitch bridge br-int is known as the integration bridge. The
+integration bridge is the central virtual switch that most virtual devices are
+connected to, including instances, DHCP servers, routers, and more. When Neutron
+security groups are enabled, however, instances are not directly connected to the
+integration bridge. Instead, instances are connected to individual Linux bridges that
+are cross connected to the integration bridge using a veth cable.
+
+See all bridges and connected interfaces:
+```sh
+# ovs-vsctl show
+```
+
+To see state of port connected to specific bridge:
+```sh
+# ovs-ofct show br-int
+```
+
+
 #####FAQ
 
 1. Can Neutron use Linux bridge and Open vSwitch simultaneously?
@@ -154,3 +211,9 @@ or
 [ml2]
 mechanism_drivers = lbx
 ```
+
+2. What is '169.254.169.254' address in qroute/qdhcp ip namespace?
+ 
+    This is ip of neutron proxy which forward packets to nova metadata server.
+    
+    

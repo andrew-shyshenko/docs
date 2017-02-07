@@ -10,5 +10,12 @@ pages:
    - 'Neutron virtual switching': 'neutron-switching.md'
    - 'Neutron DVR': 'neutron-dvr.md'
    - 'Neutron troubleshooting': 'neutron-troubleshooting.md'
+- ------------------- Hosting -------------------:
+   - 'OVH': 'deploy-on-ovh.md'
+- ------------- OpenStack Provider -------------:
+   - 'Fuel.9':
+     - 'Neutron': 'fuel.9.md'
+   - 'OSA.14.05':
+     - 'Neutron': 'osa.14.05.md'
 
 theme: readthedocs

@@ -180,3 +180,11 @@ Yes. Linux and FreeBSD drivers support Ethernet bridging.
 5. Can I add 2 interfaces to 1 bridge?
 
     Yes.
+    
+6. How to allow traffic through host?
+
+    Enable forwarding on the host:
+```
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+```
+To make this permanent add in /etc/sysctl.conf the line `net.ipv4.ip_forward = 1` and immediately enable with `sysctl -p /etc/sysctl.conf` 
