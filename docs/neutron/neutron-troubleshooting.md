@@ -36,6 +36,6 @@ ovs-ofctl dump-flows br-tun table=21 – dump all the flows on br-tun in specifi
 
 1. Can I use DVR with Linux Bridge?
 
-    No. You can use DVR only with OVS. This is technical limitationof Linux bridge.
+    No. You can use DVR only with OVS. This is technical limitation of Linux bridge.
     
     

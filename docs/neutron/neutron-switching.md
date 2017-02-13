@@ -30,7 +30,7 @@ connect multiple physical or virtual network interfaces to a Linux bridge.
 The following diagram provides a high-level view of a Linux bridge leveraged by
 Neutron:
 
-![Linux Bridge in Neutron](img/lbx.png)
+![Linux Bridge in Neutron](../img/lbx.png)
 
 In the figure, the **Linux bridge**, brqXXXX, is connected to a single physical interface,
 eth1, and three virtual interfaces, tap0, tap1, and tap2. The three tap interfaces
@@ -142,7 +142,7 @@ virtual networking devices:
 
 ####Visualizing the traffic flow when using Linux Bridge
 
-![traffic flow with lbx](img/lbx_flow.png)
+![traffic flow with lbx](../img/lbx_flow.png)
 
 While an Ethernet frame travels from the virtual machine instance to a remote
 physical network, it passes through three or four of the following devices depending
@@ -163,7 +163,7 @@ See all bridges and connected interfaces:
 
 ####Visualizing the traffic flow when using Open vSwitch
 
-![traffic flow with ovs](img/ovs_flow.png)
+![traffic flow with ovs](../img/ovs_flow.png)
 
 When using the Open vSwitch driver, for an Ethernet frame to travel from the virtual
 machine instance out through the physical server interface, it will potentially pass
@@ -215,5 +215,7 @@ mechanism_drivers = lbx
 2. What is '169.254.169.254' address in qroute/qdhcp ip namespace?
  
     This is ip of neutron proxy which forward packets to nova metadata server.
+
+
     
     

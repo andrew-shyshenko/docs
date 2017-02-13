@@ -48,12 +48,12 @@ caveats.
 
 #####Single physical interface architecture
  
-![Single physical interface](img/single_interface.png)
+![Single physical interface](../img/single_interface.png)
 
 
 #####Multiple physical interface architecture
 
-![Multy physical interface](img/multy_interface.png)
+![Multy physical interface](../img/multy_interface.png)
 
 
 #####Neutron components
@@ -89,7 +89,7 @@ connect the virtual switching infrastructure.
 
 #####OpenStack Networking diagram
 
-![Neutron components](img/neutron_components.png)
+![Neutron components](../img/neutron_components.png)
 
 This diagram depicts a sample OpenStack Networking deployment, with a dedicated OpenStack Networking node 
 performing L3 routing and DHCP, and running the advanced services FWaaS and LBaaS. Two Compute nodes run 
@@ -111,21 +111,21 @@ routing services to each network, allowing tenants to create overlapping network
 with other tenants and even other networks in the same tenant.
 
 The following naming convention for network namespaces should be observed:
-
-`qdhcp-<network UUID>`  
-`qrouter-<router UUID>`  
-`qlbaas-<load balancer UUID>`    
-
-The qdhcp namespace contains a DHCP service that provides IP addresses to
+```
+qdhcp-<network UUID>  
+qrouter-<router UUID>  
+qlbaas-<load balancer UUID>    
+```
+The **qdhcp** namespace contains a DHCP service that provides IP addresses to
 instances using the DHCP protocol. The qdhcp namespace has an interface plugged
 into the virtual switch and is able to communicate with other resources in the same
 network or subnet.
 
-The qrouter namespace represents a router and routes traffic for instances in
+The **qrouter** namespace represents a router and routes traffic for instances in
 subnets that it is connected to. Like the qdhcp namespace, the qrouter namespace
 is connected to one or more virtual switches, depending on the configuration.
 
-The qlbaas namespace represents a load balancer and might contain a
+The **qlbaas** namespace represents a load balancer and might contain a
 load-balancing service, such as HAProxy, which load balances traffic to instances.
 The qlbaas namespace is connected to a virtual switch and can communicate
 with other resources in the same network or subnet.
@@ -133,9 +133,9 @@ with other resources in the same network or subnet.
 Often, network namespaces will exist only on the controller or network nodes (if you
 have them). The ip netns command can be used to list the available namespaces,
 and commands can be executed within the namespace using the following syntax:
-
-`ip netns exec NAME <command>`  
-
+```
+ip netns exec NAME <command>  
+```
 Commands that can be executed in the namespace include ip , route , iptables ,
 and more. The output of these commands corresponds to information specific to
 the namespace they are executed in.

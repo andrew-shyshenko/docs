@@ -6,16 +6,17 @@ pages:
 - ---------------- Open vswitch ----------------:
    - 'OVS': 'openvswitch.md'
 - ------------------- Neutron -------------------:
-   - 'Neutron common': 'neutron-common.md'
-   - 'Neutron virtual switching': 'neutron-switching.md'
-   - 'Neutron DVR': 'neutron-dvr.md'
-   - 'Neutron troubleshooting': 'neutron-troubleshooting.md'
+   - 'Neutron common': 'neutron/neutron-common.md'
+   - 'Neutron virtual switching': 'neutron/neutron-switching.md'
+   - 'Neutron ML2 plugin configuration': 'neutron/neutron-ml2config.md'
+   - 'Neutron DVR': 'neutron/neutron-dvr.md'
+   - 'Neutron troubleshooting': 'neutron/neutron-troubleshooting.md'
 - ------------------- Hosting -------------------:
-   - 'OVH': 'deploy-on-ovh.md'
+   - 'OVH': 'hosting/deploy-on-ovh.md'
 - ------------- OpenStack Provider -------------:
    - 'Fuel.9':
-     - 'Neutron': 'fuel.9.md'
+     - 'Neutron': 'providers/fuel.9.md'
    - 'OSA.14.05':
-     - 'Neutron': 'osa.14.05.md'
+     - 'Neutron': 'providers/osa.14.05.md'
 
 theme: readthedocs
