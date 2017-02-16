@@ -71,6 +71,8 @@ Read more here: https://www.ccnahub.com/ip-fundamentals/understanding-arp-broadc
 
 #####MTU
 
+##### unicast, multicast, broadcast, anycast
+
 
 #####Interfaces
 

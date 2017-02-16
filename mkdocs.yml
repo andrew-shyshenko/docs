@@ -1,6 +1,5 @@
 site_name: 'KB OpenStack mitaka/newton'
 pages:
-- --== Content ==--: 'content.md'
 - ------------------- Network -------------------:
    - 'Network': 'network-common.md'
 - ---------------- Open vswitch ----------------:
@@ -13,10 +12,10 @@ pages:
    - 'Neutron troubleshooting': 'neutron/neutron-troubleshooting.md'
 - ------------------- Hosting -------------------:
    - 'OVH': 'hosting/deploy-on-ovh.md'
-- ------------- OpenStack Provider -------------:
-   - 'Fuel.9':
+- ------------ OpenStack Provider ------------:
+   - 'Fuel-9':
      - 'Neutron': 'providers/fuel.9.md'
-   - 'OSA.14.05':
+   - 'OSA-14.05':
      - 'Neutron': 'providers/osa.14.05.md'
 
 theme: readthedocs
