@@ -1,8 +1,6 @@
-Neutron DVR. North/South packet flow (from VM to world)
-=======================================================
+### Neutron DVR. North/South packet flow (from VM to world)
 
-Environment
-^^^^^^^^^^^
+**Environment**
 
 - 3 controllers
 - 2 computes
@@ -12,8 +10,7 @@ Environment
 - internal ip pool in router: 10.0.111.0/24
 - compute nodes without public ips.
 
-.. code::
-
+```
     Controllers                                  Computes
 
     node-13                                         node-12
@@ -37,20 +34,18 @@ Environment
     |        |                                  |           |
     +--------+                                  |           |
                                                 +-----------+
+```
 
+###### Before creating floating ip (compute node-12):
 
-Before creating floating ip (compute node-12):
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code::
+```
 
     root@node-12:~# ip netns
     qrouter-517ba029-f811-4af8-9cfd-6cef0babd1d1
     fip-cb1f1abb-443c-49df-b863-ba4cebf10d18
+```
 
-
-.. code::
-
+```
     root@node-12:~# ip netns exec fip-cb1f1abb-443c-49df-b863-ba4cebf10d18 ip a
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -64,10 +59,9 @@ Before creating floating ip (compute node-12):
            valid_lft forever preferred_lft forever
         inet6 fe80::f816:3eff:fe6f:c7c5/64 scope link
            valid_lft forever preferred_lft forever
+```
 
-
-.. code::
-
+```
     root@node-12:~# ip netns exec qrouter-517ba029-f811-4af8-9cfd-6cef0babd1d1 ip a
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -81,15 +75,13 @@ Before creating floating ip (compute node-12):
            valid_lft forever preferred_lft forever
         inet6 fe80::f816:3eff:feb0:bcf0/64 scope link
            valid_lft forever preferred_lft forever
+```
 
-
-Notice!
-~~~~~~~
+**Notice!**
 
 On another compute node we have the same interface with the same ip and mac!
 
-.. code::
-
+```
     root@node-16:~# ip netns exec qrouter-517ba029-f811-4af8-9cfd-6cef0babd1d1 ip a
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -103,15 +95,14 @@ On another compute node we have the same interface with the same ip and mac!
            valid_lft forever preferred_lft forever
         inet6 fe80::f816:3eff:feb0:bcf0/64 scope link
            valid_lft forever preferred_lft forever
+```
 
 
-After VM with floating floating ip (compute node-12):
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+###### After VM with floating floating ip (compute node-12):
 
 Associate fip 172.30.89.140 (local VM's ip 10.0.111.9)
 
-.. code::
-
+```
     root@node-12:~# ip netns exec fip-cb1f1abb-443c-49df-b863-ba4cebf10d18 ip a
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -131,10 +122,9 @@ Associate fip 172.30.89.140 (local VM's ip 10.0.111.9)
            valid_lft forever preferred_lft forever
         inet6 fe80::f816:3eff:fe6f:c7c5/64 scope link
            valid_lft forever preferred_lft forever
+```
 
-
-.. code::
-
+```
     root@node-12:~# ip netns exec qrouter-517ba029-f811-4af8-9cfd-6cef0babd1d1 ip a
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -156,16 +146,14 @@ Associate fip 172.30.89.140 (local VM's ip 10.0.111.9)
            valid_lft forever preferred_lft forever
         inet6 fe80::f816:3eff:feb0:bcf0/64 scope link
            valid_lft forever preferred_lft forever
-
+```
 
 So we see new interfaces in namespaces: "fpr" and "rfp"
 
 
-Information from neutron cli and mysql-database
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+###### Information from neutron cli and mysql-database
 
-.. code::
-
+```
     mysql> select * from dvr_host_macs;
     +-----------------------+-------------------+
     | host                  | mac_address       |
@@ -177,10 +165,9 @@ Information from neutron cli and mysql-database
     | node-13.example.local | fa:16:3f:ec:2f:d4 |
     +-----------------------+-------------------+
     5 rows in set (0.00 sec)
+```
 
-
-.. code::
-
+```
     mysql> select * from ml2_dvr_port_bindings;
     +--------------------------------------+-----------------------+--------------------------------------+----------+------------------------------------------------+-----------+---------+--------+
     | port_id                              | host                  | router_id                            | vif_type | vif_details                                    | vnic_type | profile | status |
@@ -191,31 +178,27 @@ Information from neutron cli and mysql-database
     | 22378d26-ea9f-454b-afba-c79096da4877 | node-15.example.local | 517ba029-f811-4af8-9cfd-6cef0babd1d1 | ovs      | {"port_filter": true, "ovs_hybrid_plug": true} | normal    |         | ACTIVE |
     | 22378d26-ea9f-454b-afba-c79096da4877 | node-16.example.local | 517ba029-f811-4af8-9cfd-6cef0babd1d1 | ovs      | {"port_filter": true, "ovs_hybrid_plug": true} | normal    |         | ACTIVE |
     +--------------------------------------+-----------------------+--------------------------------------+----------+------------------------------------------------+-----------+---------+--------+
+```
 
-
-
-.. code::
-
+```
     root@node-14:~# neutron router-list
     +--------------------------------------+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+-------+
     | id                                   | name     | external_gateway_info                                                                                                                                                                     | distributed | ha    |
     +--------------------------------------+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+-------+
     | 517ba029-f811-4af8-9cfd-6cef0babd1d1 | router04 | {"network_id": "cb1f1abb-443c-49df-b863-ba4cebf10d18", "enable_snat": true, "external_fixed_ips": [{"subnet_id": "1f06f938-b005-4be2-af8d-2447cfda8716", "ip_address": "172.30.89.126"}]} | True        | False |
     +--------------------------------------+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+-------+
+```
 
-
-.. code::
-
+```
     root@node-14:~# neutron l3-agent-list-hosting-router 517ba029-f811-4af8-9cfd-6cef0babd1d1
     +--------------------------------------+-----------------------+----------------+-------+----------+
     | id                                   | host                  | admin_state_up | alive | ha_state |
     +--------------------------------------+-----------------------+----------------+-------+----------+
     | 2c544bff-8934-4bbe-b045-6bb39f1813e7 | node-14.example.local | True           | :-)   |          |
     +--------------------------------------+-----------------------+----------------+-------+----------+
+```
 
-
-.. code::
-
+```
     root@node-14:~# neutron router-port-list 517ba029-f811-4af8-9cfd-6cef0babd1d1
     +--------------------------------------+------+-------------------+--------------------------------------------------------------------------------------+
     | id                                   | name | mac_address       | fixed_ips                                                                            |
@@ -224,9 +207,9 @@ Information from neutron cli and mysql-database
     | 784e8801-08ba-4509-b708-e7eebf58274e |      | fa:16:3e:a1:c3:68 | {"subnet_id": "7978f97e-a2b3-4457-b9c6-8620cc953332", "ip_address": "10.0.111.2"}    |
     | cf417cb0-5342-4426-afa0-d6cf03647bd2 |      | fa:16:3e:eb:e6:79 | {"subnet_id": "1f06f938-b005-4be2-af8d-2447cfda8716", "ip_address": "172.30.89.126"} |
     +--------------------------------------+------+-------------------+--------------------------------------------------------------------------------------+
+```
 
-.. code::
-
+```
     root@node-14:~# neutron subnet-list
     +--------------------------------------+----------------------------+---------------+----------------------------------------------------+
     | id                                   | name                       | cidr          | allocation_pools                                   |
@@ -234,10 +217,9 @@ Information from neutron cli and mysql-database
     | 1f06f938-b005-4be2-af8d-2447cfda8716 | admin_floating_net__subnet | 172.30.0.0/17 | {"start": "172.30.89.126", "end": "172.30.89.254"} |
     | 7978f97e-a2b3-4457-b9c6-8620cc953332 | admin_internal_net__subnet | 10.0.111.0/24 | {"start": "10.0.111.2", "end": "10.0.111.254"}     |
     +--------------------------------------+----------------------------+---------------+----------------------------------------------------+
+```
 
-
-.. code::
-
+```
     root@node-14:~# neutron floatingip-list
     +--------------------------------------+------------------+---------------------+--------------------------------------+
     | id                                   | fixed_ip_address | floating_ip_address | port_id                              |
@@ -245,10 +227,9 @@ Information from neutron cli and mysql-database
     | 5ea07d36-5d76-4594-a98d-75d5fcf45cf5 | 10.0.111.9       | 172.30.89.140       | a7884fb1-3573-4cdc-a48e-1f37c95ace81 | vm on node-12
     | 7e2f82cd-df1f-4aa5-bdb4-1f087df720ef | 10.0.111.10      | 172.30.89.139       | ddb1b5af-f1ad-436a-b751-1df48d870229 | vm on node-16
     +--------------------------------------+------------------+---------------------+--------------------------------------+
+```
 
-
-.. code::
-
+```sh
     root@node-14:~# neutron port-list
     +--------------------------------------+------+-------------------+--------------------------------------------------------------------------------------+
     | id                                   | name | mac_address       | fixed_ips                                                                            |
@@ -266,10 +247,9 @@ Information from neutron cli and mysql-database
     | e81e3941-8336-434e-980c-fc0a5d3a7d5b |      | fa:16:3e:bc:eb:65 | {"subnet_id": "1f06f938-b005-4be2-af8d-2447cfda8716", "ip_address": "172.30.89.131"} | neutron_agent_gateway on node-16
     | f1140802-f094-4380-9170-8646e1c4f22f |      | fa:16:3e:71:21:c6 | {"subnet_id": "1f06f938-b005-4be2-af8d-2447cfda8716", "ip_address": "172.30.89.140"} | vm on node-12
     +--------------------------------------+------+-------------------+--------------------------------------------------------------------------------------+
+```
 
-
-.. code::
-
+```sh
     mysql> select * from ports;
     +----------------------------------+--------------------------------------+------+--------------------------------------+-------------------+----------------+--------+-------------------------------------------------------------------------------+--------------------------------------+----------+------------------+
     | tenant_id                        | id                                   | name | network_id                           | mac_address       | admin_state_up | status | device_id                                                                     | device_owner                         | dns_name | standard_attr_id |
@@ -288,22 +268,21 @@ Information from neutron cli and mysql-database
     |                                  | f1140802-f094-4380-9170-8646e1c4f22f |      | cb1f1abb-443c-49df-b863-ba4cebf10d18 | fa:16:3e:71:21:c6 |              1 | N/A    | 5ea07d36-5d76-4594-a98d-75d5fcf45cf5                                          | network:floatingip                   | NULL     |              161 |
     +----------------------------------+--------------------------------------+------+--------------------------------------+-------------------+----------------+--------+-------------------------------------------------------------------------------+--------------------------------------+----------+------------------+
     12 rows in set (0.00 sec)
-
+```
 
 We see from table that DVR requires 2 floating ip: for gateway in floating net and for agent on each compute node.
 
 
-Find out with VM's macs with floating ip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+##### Find out with VM's macs with floating ip
 
 Find mac of VM1 (fip 172.30.89.140, local ip 10.0.111.9)
 
-.. code::
-
+```sh
     $ arping -I br-public -c 1 172.30.89.140
     ARPING 172.30.89.140
     42 bytes from fa:16:3e:6f:c7:c5 (172.30.89.140): index=0 time=771.461 msec
-
+```
 
 We see this is mac of neutron_agent_gateway on node-12 with ip 172.30.89.129.
 If we create new Vm in the node-12, arping shows the same mac.
@@ -315,50 +294,47 @@ Get mac 'fa:16:3e:6f:c7:c5'
 
 Find route from VM to internet
 
-.. code::
-
+```
     $ traceroute 8.8.8.8
     traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 46 byte packets
     1  10.0.111.1 (10.0.111.1)  1.645 ms  0.065 ms  0.979 ms
     2  169.254.106.115 (169.254.106.115)  1.003 ms  1.179 ms  1.214 ms
     3  172.30.0.1 (172.30.0.1)  0.944 ms  0.088 ms  1.013 ms
-
+```
 
 As we see traffic goes through fpr-517ba029-f (169.254.106.115, in namespace fip-cb1f1abb-443c-49df-b863-ba4cebf10d18 in compute node-12)
 
 From official documentation (http://docs.openstack.org/mitaka/networking-guide/scenario-dvr-ovs.html)
 
-.. figure:: ../images/scenario-dvr-flowns2.png
-   :alt: traffic_flow
-   :align: center
+![TrafficFlowDVR](../img/scenario-dvr-flowns2.png)
+
+**The following steps involve a packet inbound from the external network to an instance on compute node 1:**
+
+1) The external interface forwards the packet to the Open vSwitch external bridge br-ex. The packet contains destination IP address F1.  
+2) The Open vSwitch external bridge br-ex forwards the packet to the fg interface (1) in the floating IP namespace fip. The fg interface responds to any ARP requests for the instance floating IP address F1.  
+3) The floating IP namespace fip routes the packet (2) to the distributed router namespace qrouter using DVR internal IP addresses DA1 and DA2. The fpr interface (3) contains DVR internal IP address DA1 and the rfp interface (4) contains DVR internal IP address DA2.  
+4) The floating IP namespace fip forwards the packet to the rfp interface (5) in the distributed router namespace qrouter. The rfp interface also contains the instance floating IP address F1.  
+5) The iptables service (6) in the distributed router namespace qrouter performs DNAT on the packet using the destination IP address. The qr interface (7) contains the project network gateway IP address TG.  
+6) The distributed router namespace qrouter forwards the packet to the Open vSwitch integration bridge br-int.  
+7) The Open vSwitch integration bridge br-int forwards the packet to the Linux bridge qbr.  
+8) Security group rules (8) on the Linux bridge qbr handle firewalling and state tracking for the packet.  
+9) The Linux bridge qbr forwards the packet to the instance tap interface (9).  
 
 
-The following steps involve a packet inbound from the external network to an instance on compute node 1:
+**The following steps involve a packet outbound from an instance on compute node 1 to the external network:**
 
-    The external interface forwards the packet to the Open vSwitch external bridge br-ex. The packet contains destination IP address F1.
-    The Open vSwitch external bridge br-ex forwards the packet to the fg interface (1) in the floating IP namespace fip. The fg interface responds to any ARP requests for the instance floating IP address F1.
-    The floating IP namespace fip routes the packet (2) to the distributed router namespace qrouter using DVR internal IP addresses DA1 and DA2. The fpr interface (3) contains DVR internal IP address DA1 and the rfp interface (4) contains DVR internal IP address DA2.
-    The floating IP namespace fip forwards the packet to the rfp interface (5) in the distributed router namespace qrouter. The rfp interface also contains the instance floating IP address F1.
-    The iptables service (6) in the distributed router namespace qrouter performs DNAT on the packet using the destination IP address. The qr interface (7) contains the project network gateway IP address TG.
-    The distributed router namespace qrouter forwards the packet to the Open vSwitch integration bridge br-int.
-    The Open vSwitch integration bridge br-int forwards the packet to the Linux bridge qbr.
-    Security group rules (8) on the Linux bridge qbr handle firewalling and state tracking for the packet.
-    The Linux bridge qbr forwards the packet to the instance tap interface (9).
-
-The following steps involve a packet outbound from an instance on compute node 1 to the external network:
-
-    The instance 1 tap interface (9) forwards the packet to the Linux bridge qbr. The packet contains destination MAC address TG1 because the destination resides on another network.
-    Security group rules (8) on the Linux bridge qbr handle state tracking for the packet.
-    The Linux bridge qbr forwards the packet to the Open vSwitch integration bridge br-int.
-    The Open vSwitch integration bridge br-int forwards the packet to the qr interface (7) in the distributed router namespace qrouter. The qr interface contains the project network gateway IP address TG.
-    The iptables service (6) performs SNAT on the packet using the rfp interface (5) as the source IP address. The rfp interface contains the instance floating IP address F1.
-    The distributed router namespace qrouter (2) routes the packet to the floating IP namespace fip using DVR internal IP addresses DA1 and DA2. The rfp interface (4) contains DVR internal IP address DA2 and the fpr interface (3) contains DVR internal IP address DA1.
-    The fg interface (1) in the floating IP namespace fip forwards the packet to the Open vSwitch external bridge br-ex. The fg interface contains the project router external IP address TE.
-    The Open vSwitch external bridge br-ex forwards the packet to the external network via the external interface.
+1) The instance 1 tap interface (9) forwards the packet to the Linux bridge qbr. The packet contains destination MAC address TG1 because the destination resides on another network.  
+2) Security group rules (8) on the Linux bridge qbr handle state tracking for the packet.  
+3) The Linux bridge qbr forwards the packet to the Open vSwitch integration bridge br-int.  
+4) The Open vSwitch integration bridge br-int forwards the packet to the qr interface (7) in the distributed router namespace qrouter. The qr interface contains the project network gateway IP address TG.  
+5) The iptables service (6) performs SNAT on the packet using the rfp interface (5) as the source IP address. The rfp interface contains the instance floating IP address F1.  
+6) The distributed router namespace qrouter (2) routes the packet to the floating IP namespace fip using DVR internal IP addresses DA1 and DA2. The rfp interface (4) contains DVR internal IP address DA2 and the fpr interface (3) contains DVR internal IP address DA1.  
+7) The fg interface (1) in the floating IP namespace fip forwards the packet to the Open vSwitch external bridge br-ex. The fg interface contains the project router external IP address TE.  
+8) The Open vSwitch external bridge br-ex forwards the packet to the external network via the external interface.  
 
 
-Links
-^^^^^
+
+###### Links
 
 - http://docs.openstack.org/mitaka/networking-guide/
 - https://assafmuller.com/category/dvr/

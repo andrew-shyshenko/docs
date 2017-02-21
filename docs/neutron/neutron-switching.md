@@ -30,7 +30,7 @@ connect multiple physical or virtual network interfaces to a Linux bridge.
 The following diagram provides a high-level view of a Linux bridge leveraged by
 Neutron:
 
-![Linux Bridge in Neutron](../img/lbx.png)
+![Linux Bridge in Neutron](../img/lxb.png)
 
 In the figure, the **Linux bridge**, brqXXXX, is connected to a single physical interface,
 eth1, and three virtual interfaces, tap0, tap1, and tap2. The three tap interfaces
@@ -142,7 +142,7 @@ virtual networking devices:
 
 ####Visualizing the traffic flow when using Linux Bridge
 
-![traffic flow with lbx](../img/lbx_flow.png)
+![traffic flow with lxb](../img/lxb_flow.png)
 
 While an Ethernet frame travels from the virtual machine instance to a remote
 physical network, it passes through three or four of the following devices depending

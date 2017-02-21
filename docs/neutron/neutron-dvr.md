@@ -71,6 +71,11 @@ SNAT service is not distributed, it is centralized and the service node will hos
 7) The fg interface (1) in the floating IP namespace fip forwards the packet to the Open vSwitch external bridge br-ex. The fg interface contains the project router external IP address TE.  
 8) The Open vSwitch external bridge br-ex forwards the packet to the external network via the external interface.  
 
+**To sum up**
+
+- on Compute node all VMs with FIP has one MAC-address for external world (MAC-address of virtual router's external port in namespace fip on specific Compute node)
+- on Compute node Neutron answers on all ARP-requests IP which this node managed
+
 
 ### Configure Distributed Virtual Router (DVR)
 
@@ -128,6 +133,7 @@ It is not currently possible to convert an existing non-distributed router to DV
 2) In order to enable true north-south bandwidth between hypervisors (compute nodes), you must use public IP addresses for every compute node and enable floating IPs.
 3) For now, based on the current neutron design and architecture, DHCP cannot become distributed across compute nodes. 
 TODO(as): check 3rd point
+
 
 ### Links
 

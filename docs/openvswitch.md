@@ -1,16 +1,13 @@
 <h1>Open vSwitch</h1>
 
----
 
-Overview
---------
+### Overview
 
 
+Open vSwitch - software switch project with extended capabilities (in comparison with Linux Bridge) 
 
----
 
-Install
--------
+### Install
 
 On Ubuntu:
 
@@ -18,10 +15,8 @@ On Ubuntu:
 # apt install openvswitch-common openvswitch-switch -y
 ```
 
----
 
-Configure interfaces
---------------------
+### Configure interfaces
 
 All configurations items, which are necessary to set up the Openvswitch, can be defined in /etc/network/interfaces or in separate files in /etc/network/interfaces.d/.
 
@@ -159,8 +154,12 @@ iface l2taggedport inet manual
 
 ---
 
-Useful commands
----------------
+### Open vSwitch Restrictions and Limitations
+
+It is impossible to use the iptables functionality on physical servers with Open vSwitch bridges enabled.
+
+
+### Useful commands
 
 ```sh
 ovs-appctl: for querying and controlling Open vSwitch daemon
@@ -187,17 +186,16 @@ ovs-vsctl: ovs-vswitchd management utility
 	-> various database commands (list, get, set, add, remove etc.
 ```
 
-FAQ
----
+### FAQ
 
-1.  Why do OVS bridges have state UNKNOWN in command 'ip a'?
+**1) Why do OVS bridges have state UNKNOWN in command 'ip a'?**
  
-    Because OVS manages this interfaces, not Linux.
-    
+**A:** Because OVS manages this interfaces, not Linux.  
+      
 
-2.  Why does each bridge need to have a port and interface with the same name marked as type "internal"?
-    If I attempt to delete them, for example, it says that the port does not exist. How else are they used?
-    
+**2) Why does each bridge need to have a port and interface with the same name marked as type "internal"?**
+
+**A:** If I attempt to delete them, for example, it says that the port does not exist. How else are they used?   
 ```
 e.g.
 
@@ -244,7 +242,8 @@ The purpose is to hold the IP for the bridge itself (just like some physical bri
 a physical interface that would normally have its own IP. Since assigning a port to an IP wouldn't happen in a physical bridge, 
 assigning an IP to the physical interface would be incorrect, as packets would stop at the port and not be passed across the bridge.
 
-3.  I created a bridge and added my Ethernet port to it, using commands like these:
+
+**3) I created a bridge and added my Ethernet port to it, using commands like these:**
 
 ```
    ovs-vsctl add-br br0
@@ -254,14 +253,14 @@ assigning an IP to the physical interface would be incorrect, as packets would s
 and as soon as I ran the "add-port" command I lost all connectivity through eth0. Help!
 
 
-A physical Ethernet device that is part of an Open vSwitch bridge should not have an IP address. If one does, then that IP address 
+**A:** A physical Ethernet device that is part of an Open vSwitch bridge should not have an IP address. If one does, then that IP address 
 will not be fully functional.
 You can restore functionality by moving the IP address to an Open vSwitch "internal" device, such as the network device 
 named after the bridge itself. For example, assuming that eth0's IP address is 192.168.128.5, you could run the commands below to fix up the situation:
 
 ```
-   ifconfig eth0 0.0.0.0
-   ifconfig br0 192.168.128.5
+ifconfig eth0 0.0.0.0
+ifconfig br0 192.168.128.5
 ```
 (If your only connection to the machine running OVS is through the IP address in question, then you would want to run all of these commands 
 on a single command line, or put them into a script.) If there were any additional routes assigned to eth0, then you would also want to use commands 
@@ -270,6 +269,29 @@ to adjust these routes to go through br0.
 There is no compelling reason why Open vSwitch must work this way. However, this is the way that the Linux kernel bridge module has always worked, 
 so it's a model that those accustomed to Linux bridging are already used to. Also, the model that most people expect is not implementable without 
 kernel changes on all the versions of Linux that Open vSwitch supports.
+
+
+**4) How to connect OVS with LinuxBridge?**
+
+```
+# ip link add name veth0 type veth peer name veth1
+# brctl addif br-ex veth0
+# ovs-vsctl add-port br-floating veth1
+```
+Bring up both veth interfaces:
+```
+# ip link set veth0 up && ip link set veth1 up
+```
+
+
+**5) How to connect 2 OVS?**
+
+```
+# ovs-vsctl add-port br-vlan phy-br-vlan
+# ovs-vsctl set interface phy-br-vlan type=patch
+# ovs-vsctl set interface phy-br-vlan options:peer=int-br-vlan
+```
+
 
 Links
 -----

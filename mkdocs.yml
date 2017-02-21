@@ -14,8 +14,8 @@ pages:
    - 'OVH': 'hosting/deploy-on-ovh.md'
 - ------------ OpenStack Provider ------------:
    - 'Fuel-9':
-     - 'Neutron': 'providers/fuel.9.md'
+     - 'Neutron-DVR investigation': 'providers/fuel.9.md'
    - 'OSA-14.05':
-     - 'Neutron': 'providers/osa.14.05.md'
+     - 'Neutron-DVR investigation': 'providers/osa.14.05.md'
 
 theme: readthedocs

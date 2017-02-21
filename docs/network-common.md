@@ -1,4 +1,4 @@
-#####ARP
+### ARP
 
 The Address Resolution Protocol (ARP) bridges the gap between Ethernet and IP by translating IP addresses into MAC addresses.
 
@@ -58,23 +58,23 @@ Read more here: https://www.ccnahub.com/ip-fundamentals/understanding-arp-broadc
 4) `traceroute [ip-address]` shows intermediate routers betwean  source and destination hosts
 
 
-#####DHCP
+### DHCP
 
-#####VLAN
+### VLAN
 
-#####GRE
+### GRE
 
 ![Packet encapsulation](img/gre-vxlan.png)
 
 
-#####Namespaces
+### Namespaces
 
-#####MTU
+### MTU
 
-##### unicast, multicast, broadcast, anycast
+### unicast, multicast, broadcast, anycast
 
 
-#####Interfaces
+### Interfaces
 
 OpenStack operates with such interfaces: 
 
@@ -136,7 +136,7 @@ Open vSwitch patch ports are used to connect Open vSwitch bridges to each other,
 while Linux veth interfaces are used to connect Open vSwitch bridges to Linux
 bridges or Linux bridges to other Linux bridges.
 
-#####Configuring the bridge interface
+###### Configuring the bridge interface
 
 In this instruction, the eth1 physical network interface will be utilized for bridging
 purposes. On the controller and compute nodes, configure the eth1 interface within
@@ -158,7 +158,7 @@ Confirm that the interface is in an UP state using the ip link show dev eth1:
 ```
 
 
-#####TUN/TAP
+#### TUN/TAP
 
 1. TUN/TAP provides packet reception and transmission for user space programs. 
 It can be seen as a simple Point-to-Point or Ethernet device, which,
@@ -203,7 +203,7 @@ to attach BPF to this interface.
 Yes. Linux and FreeBSD drivers support Ethernet bridging. 
 
 
-#####FAQ
+### FAQ
 
 1. How many VLANs can I create?
  
