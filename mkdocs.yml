@@ -8,6 +8,7 @@ pages:
    - 'Neutron common': 'neutron/neutron-common.md'
    - 'Neutron virtual switching': 'neutron/neutron-switching.md'
    - 'Neutron ML2 plugin configuration': 'neutron/neutron-ml2config.md'
+   - 'Neutron OVS configuration': 'neutron/neutron-ovs.md'
    - 'Neutron DVR': 'neutron/neutron-dvr.md'
    - 'Neutron troubleshooting': 'neutron/neutron-troubleshooting.md'
 - ------------------- Hosting -------------------:

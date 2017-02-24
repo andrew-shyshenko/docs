@@ -206,3 +206,27 @@ The Open vSwitch agents on the controller and compute nodes should be visible in
 the output with a smiley face under the alive column. If a node is not present or the
 status is XXX , troubleshoot agent connectivity issues by observing the log messages
 found in /var/log/neutron/openvswitch-agent.log on the respective host.
+
+
+### Network Components with OVS
+
+![Network Node components](../img/scenario-classic-ovs-network2.png)
+
+![Compute Node components](../img/scenario-classic-ovs-compute2.png)
+
+##### Network flow to/from internet with floating IP
+
+![Net flow fip](../img/scenario-classic-ovs-flowns2.png)
+
+##### Network flow between instances in different tenant networks
+
+![Net flow1](../img/scenario-classic-ovs-flowew1.png)
+
+##### Network flow between instances in same tenant network
+
+![Net flow2](../img/scenario-classic-ovs-flowew2.png)
+
+
+### Links
+
+1. https://docs.openstack.org/liberty/networking-guide/scenario-classic-ovs.html

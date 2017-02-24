@@ -42,10 +42,19 @@ SNAT service is not distributed, it is centralized and the service node will hos
 ```
 
 
-### Traffic flow with DVR
+### Network components with DVR and FIP on Network node
 
-![TrafficFlowDVR](../img/scenario-dvr-flowns2.png)
+![TrafficFlowDVR1](../img/scenario-dvr-network2.png)
 
+
+### Network components with DVR and FIP on Compute node
+
+![TrafficFlowDVR1](../img/scenario-dvr-compute2.png)
+
+
+### Traffic flow with DVR and FIP on Compute node
+
+![TrafficFlowDVR2](../img/scenario-dvr-flowns2.png)
 
 **The following steps involve a packet inbound from the external network to an instance on compute node 1:**
 
