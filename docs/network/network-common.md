@@ -23,7 +23,7 @@ ARP also includes a ARP Reply message, which include both the original IP addres
 Based on the image below, PC1’s Ethernet cable plugged into SW2, shows detailed steps of how PC1 initially knew its Default Gateway’s (R3) MAC address 
 in order to route IP packets outside its LAN network.
 
-![ARP-flow](img/arp.jpg)
+![ARP-flow](../img/arp.jpg)
 
 Step 1: PC1’s Network Layer sends an IP packet encapsulated with destination IP address of R3 (192.168.1.1) as a receiver, 
 and a source MAC address of PC1 (192.168.1.100) as sender.
@@ -64,7 +64,7 @@ Read more here: https://www.ccnahub.com/ip-fundamentals/understanding-arp-broadc
 
 ### GRE
 
-![Packet encapsulation](img/gre-vxlan.png)
+![Packet encapsulation](../img/gre-vxlan.png)
 
 
 ### Namespaces

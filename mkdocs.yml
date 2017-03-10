@@ -1,9 +1,9 @@
 site_name: 'KB OpenStack mitaka/newton'
 pages:
 - ------------------- Network -------------------:
-   - 'Network': 'network-common.md'
+   - 'Network': 'network/network-common.md'
 - ---------------- Open vswitch ----------------:
-   - 'OVS': 'openvswitch.md'
+   - 'OVS': 'network/openvswitch.md'
 - ------------------- Neutron -------------------:
    - 'Neutron common': 'neutron/neutron-common.md'
    - 'Neutron virtual switching': 'neutron/neutron-switching.md'
@@ -15,8 +15,14 @@ pages:
    - 'OVH': 'hosting/deploy-on-ovh.md'
 - ------------ OpenStack Provider ------------:
    - 'Fuel-9':
-     - 'Neutron-DVR investigation': 'providers/fuel.9.md'
-   - 'OSA-14.05':
-     - 'Neutron-DVR investigation': 'providers/osa.14.05.md'
+     - 'Neutron-DVR investigation': 'providers/fuel-9.md'
+   - 'OSA-14':
+     - 'Neutron-DVR investigation': 'providers/osa-14.md'
+- ---- OpenStack Roles and Permitions -----:
+   - 'Roles': 'os-roles.md'
+- ----------- Multi-tenancy -----------:
+   - 'Nova+Cinder': 'multitenancy.md'
+   - 'Cinder': 'cinder.md'
+   - 'Swift': 'swift.md'
 
 theme: readthedocs
