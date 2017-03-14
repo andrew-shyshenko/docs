@@ -72,7 +72,7 @@ $ cinder type-access-list --volume-type tenant1
 
 Links: https://docs.openstack.org/cli-reference/cinder.html
 
-5) Restrict permitions via quotas:
+5) Restrict permissions via quotas:
 Check quotas:
 ```
 $ cinder quota-show <tenant_ID>
@@ -89,7 +89,8 @@ Links: https://docs.openstack.org/admin-guide/blockstorage-multi-backend.html
  
 1) All user can see all types (backends in our case) of Cinder volumes if you use public cinder types (which is default).
 
-2) When user creates in Horizon volume with 'no volume type', Cinder creates volume on first available backend (omitting all restrictions, quotas by 'type')  
+2) When user creates in Horizon volume with 'no volume type', Cinder creates volume on first available backend 
+(omitting all restrictions, quotas by 'type')  
 
 
 
