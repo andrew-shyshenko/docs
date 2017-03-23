@@ -1,6 +1,7 @@
 #### Swift’s key characteristics include:
 
 Scalablity
+
     Swift is designed to scale linearly based on how much data needs to be stored and
     how many users need to be served. This means that it can scale from a few nodes
     with a handful of drives to thousands of machines with dozens, even hundreds, of
@@ -9,7 +10,9 @@ Scalablity
     13able with no single point of failure. To scale up, the system grows where needed—
     by adding storage nodes to increase storage capacity, adding proxy nodes as requests
     increase, and growing network capacity where bottlenecks are detected.
+
 Durability
+
     Swift’s innovative distributed architecture means that it provides extremely durable
     storage. The essence of durability is that stored objects will always be available and
     have data integrity. To ensure an object is persistently available, Swift copies it and
@@ -17,7 +20,9 @@ Durability
     is still good. Replicators run to ensure that the correct number of copies are in the
     cluster. In the event that a device fails, missing data copies are replicated and placed
     throughout the cluster to ensure that durability levels are maintained.
+
 Multi-regional capability
+
     Swift can distribute data across multiple data centers, which may have high latency
     between them. Distribution can be done for a number of reasons. One would be to
     provide high availability of data by allowing it to be accessed from each region.
@@ -30,13 +35,17 @@ Multi-regional capability
     the cluster in a way that allows for failures. It enables a cluster to survive even if a
     zone is unavailable. This provides additional guarantees of durability and availa‐
     bility of data.
+
 High concurrency
+
     Swift is architected to distribute requests across multiple servers. By using a shared-
     nothing approach, Swift can take advantage of all the available server capacity to
     handle many requests simultaneously. This increases the system’s concurrency and
     total throughput available. This is a great advantage to those who need to satisfy
     the storage needs of large-scale web workloads.
+
 Flexible storage
+
     Swift offers great flexibility in data architecture and hardware, allowing operators
     to tailor their storage to meet the specific needs of their users. In addition to the
     ability to mix and match commodity hardware, Swift has storage polices that allow
@@ -51,14 +60,18 @@ Flexible storage
     devices are used to build a cluster, but emerging technology (such as key/value
     Ethernet drives from Seagate) and other open source and commercial storage sys‐
     tems that have adaptors can become storage targets in a Swift cluster.
+
 Open source
+
     Swift is open-sourced under the Apache 2 license as part of the OpenStack project.
     With more than 150 participating developers as of early 2014, the Swift community
     is growing every quarter. As with other open source projects, source code can be
     reviewed by many more developers than is the case with proprietary software. This
     means potential bugs tend to be more visible and are more rapidly corrected than
     with proprietary software. In the long term, “open” generally wins.
+    
 Large ecosystem
+
     The Swift ecosystem is powered by open source code, but unlike some open source
     projects, it is a large ecosystem with multiple companies that test and develop Swift
     at scale. Having so many vendors participating greatly reduces the risk of vendor
@@ -69,7 +82,9 @@ Large ecosystem
     in the works. With such a vibrant and engaged ecosystem, it is easy to obtain tools,
     best practices, and deployment know-how from other organizations and commu‐
     nity members who are using Swift.
+    
 Runs on commodity hardware
+
     Swift is designed from the ground up to handle failures, so reliability of individual
     components is less critical. Swift installations can run robustly on commodity
     hardware, and even on regular desktop drives rather than more expensive enter‐
@@ -80,7 +95,9 @@ Runs on commodity hardware
     of decreasing hardware prices and increasing drive capacity. It also allows data to
     be moved from one media to another to address constraints such as IO rate or
     latency.
+    
 Developer-friendliness
+
     Developers benefit from the rich and growing body of Swift tools and libraries.
     Beyond the core functionality to store and serve data durably at large scale, Swift
     has many built-in features that make it easy for application developers and users.
@@ -119,7 +136,9 @@ Developer-friendliness
         of locality information to lower network requirements when processing data.
     Customizability
         Middleware can be developed and run directly on the storage system.
+
 Operator-friendly
+
     Swift is appealing to IT operators for a number of reasons. It lets you use low-cost,
     industry-standard servers and disks. With Swift, you can manage more data and
     use cases with ease. Because an API is used to store and serve data, you do not spend
@@ -128,7 +147,9 @@ Operator-friendly
     you avoid catastrophic failure and rest a bit easier. The chapters in this book on
     deploying and operating Swift clusters will provide you with an overview of how
     easy it really is.
+    
 Upcoming features
+
     The Swift developer community is working on many additional features that will
     be added to upcoming releases of Swift, such as storage policies and support for
     erasure coding. Storage policies will allow deployers and users to choose what
@@ -165,15 +186,20 @@ containing three parts: account, container, and object. Using one or more of the
 allows the system to form a unique storage location for data.
 
 /account
+
     The account storage location is a uniquely named storage area that will contain the
     metadata (descriptive information) about the account itself, as well as the list of
     containers in the account. Note that in Swift, an account is not a user identity. When
     you hear account, think storage area.
+    
 /account/container
+
     The container storage location is the user-defined storage area within an account
     where metadata about the container itself and the list of objects in the container
     will be stored.
+    
 /account/container/object
+
     The object storage location is where the data object and its metadata will be stored.
     Because the parts are joined together to make up the locations, the container and object
     names do not need to be unique within the cluster. If three objects with the name
