@@ -166,14 +166,23 @@ Upcoming features
 SwiftStack features include:
 
 • Built-in load balancer
+
 • SSL termination for HTTPS services
+
 • Disk management tools
+
 • Swift ring building and ring deployment
+
 • Automated gradual capacity adjustments
+
 • Health-check and alerting agents
+
 • Node/drive replacement tools
+
 • System monitoring and stats collection
+
 • Capacity monitoring and trending
+
 • Web client / user portal
 
 Additional information on SwiftStack is available at the SwiftStack site.
