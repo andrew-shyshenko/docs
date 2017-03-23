@@ -1,26 +1,22 @@
 #### Available Roles after OpenStack installation
 
-```
-admin
-_member_
-Member
-heat_stack_owner
-heat_stack_user
-ResellerAdmin
-swiftoperator
-```
+- `admin`
+- `_member_`
+- `Member`
+- `heat_stack_owner`
+- `heat_stack_user`
+- `ResellerAdmin`
+- `swiftoperator`
+
 
 
 ##### Keystone
 
 - **`admin`** - an administrative super user, which has full permissions across all projects and should be used with great care
 
-- **`member`** - a typical user
+- **`_ member_`** is the default role that is assigned to users when they are created (default role in Keystone)
 
-- **`_ member_`** is the default role that is assigned to users when they are created.
-
-
-Roles are custom-defined by the admin, there are no default roles or default role definition.
+- **`member`** - a typical user (some old components could require this role, for example, Horizon older Grizlly release)
 
 The admin is global, not per project, so granting a user the admin role in any project gives the user administrative rights across the whole cloud.
 
@@ -29,13 +25,19 @@ If your administrative users also use the cloud to launch and manage instances, 
 administrative access and normal operations and that they be in distinct projects.
 
 Basically, we just have 2 default openstack roles that gets configured: admin and _ member_.
-Depending on how you installed, certain tools or guides recommend using _member_ as the default role to define "membership" within a project.
+Depending on how you installed, certain tools or guides recommend using _ member_ as the default role to define "membership" within a project.
 
 However, by default Horizon expects the default role to be Member, so one can either update local_settings.py (usually in /etc/openstack_dashboard) 
 to change the OPENSTACK_KEYSTONE_DEFAULT_ROLE to be "_member_", or create a "Member" role in Keystone for use in Horizon.
 
+The end result is many older environments still have both roles unless action is taken to manually remove the "Member" one 
+and update the Horizon default to the new value, and I should note it probably wouldn't even be that surprising 
+if there are still some deployment tools creating new environments and using a "Member" role - setting horizon to match - 
+in this fashion instead of the "_member_" built-in.
+ 
 **Links:** 
 - https://docs.openstack.org/ops-guide/ops-users.html
+- https://lists.gt.net/openstack/dev/38640
 
 
 ##### Swift

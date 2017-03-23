@@ -12,7 +12,10 @@ pages:
    - 'Neutron DVR': 'neutron/neutron-dvr.md'
    - 'Neutron troubleshooting': 'neutron/neutron-troubleshooting.md'
 - 'Cinder': 'cinder/cinder.md'
-- 'Swift': 'swift/swift.md'
+- ------------------- Swift -------------------:
+   - 'Swift common': 'swift/swift-common.md'
+   - 'Swift rings': 'swift/swift-rings.md'
+   - 'Swift-quotas-cli': 'swift/swift-quotas-cli.md'
 - ----------- Multi-tenancy -----------:
    - 'Nova+Cinder': 'multitenancy/multitenancy.md'
    - 'OpenStack Roles and Permitions': 'multitenancy/os-roles.md'
