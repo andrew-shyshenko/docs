@@ -24,7 +24,7 @@ it is effective for encyclopedias, we will need more sophisticated hash function
 storing data on multiple drives.
 
 
-####Ring Basics: Hash Functions
+#### Ring Basics: Hash Functions
 
 Before we take a closer look at consistent hashing in Swift, let’s cover basic hashing by
 looking at how we can use a hash function to determine where to store objects. Hashing
@@ -156,7 +156,7 @@ where the container data is located. One object storage policy ring will be crea
 each storage policy in use and used to determine where object data is located.
 
 
-###### Partitions
+#### Partitions
 
 With an unmodified consistent hashing ring, there are numerous small hash ranges that
 become smaller or larger when drives are added or removed. This churn can result in
