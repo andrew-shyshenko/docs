@@ -15,6 +15,7 @@ pages:
 - ------------------- Swift -------------------:
    - 'Swift common': 'swift/swift-common.md'
    - 'Swift rings': 'swift/swift-rings.md'
+   - 'swift configuring': 'swift-configuring.md'
    - 'Swift-quotas-cli': 'swift/swift-quotas-cli.md'
 - ----------- Multi-tenancy -----------:
    - 'Nova+Cinder': 'multitenancy/multitenancy.md'
