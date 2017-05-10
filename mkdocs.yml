@@ -11,11 +11,12 @@ pages:
    - 'Neutron OVS configuration': 'neutron/neutron-ovs.md'
    - 'Neutron DVR': 'neutron/neutron-dvr.md'
    - 'Neutron troubleshooting': 'neutron/neutron-troubleshooting.md'
-- 'Cinder': 'cinder/cinder.md'
+- ------------------- Cinder -------------------:
+   - 'Cinder': 'cinder/cinder.md'
 - ------------------- Swift -------------------:
    - 'Swift common': 'swift/swift-common.md'
    - 'Swift rings': 'swift/swift-rings.md'
-   - 'swift configuring': 'swift-configuring.md'
+   - 'Swift configuring': 'swift/swift-configuring.md'
    - 'Swift-quotas-cli': 'swift/swift-quotas-cli.md'
 - ----------- Multi-tenancy -----------:
    - 'Nova+Cinder': 'multitenancy/multitenancy.md'

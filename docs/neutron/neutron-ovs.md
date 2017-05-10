@@ -210,21 +210,21 @@ found in /var/log/neutron/openvswitch-agent.log on the respective host.
 
 ### Network Components with OVS
 
-![Network Node components](../img/scenario-classic-ovs-network2.png)
+![Network Node components](../../../cml-vbx-doc/images/scenario-classic-ovs-network2.png)
 
-![Compute Node components](../img/scenario-classic-ovs-compute2.png)
+![Compute Node components](../../../cml-vbx-doc/images/scenario-classic-ovs-compute2.png)
 
 ##### Network flow to/from internet with floating IP
 
-![Net flow fip](../img/scenario-classic-ovs-flowns2.png)
+![Net flow fip](../../../cml-vbx-doc/images/scenario-classic-ovs-flowns2.png)
 
 ##### Network flow between instances in different tenant networks
 
-![Net flow1](../img/scenario-classic-ovs-flowew1.png)
+![Net flow1](../../../cml-vbx-doc/images/scenario-classic-ovs-flowew1.png)
 
 ##### Network flow between instances in same tenant network
 
-![Net flow2](../img/scenario-classic-ovs-flowew2.png)
+![Net flow2](../../../cml-vbx-doc/images/scenario-classic-ovs-flowew2.png)
 
 
 ### Links
